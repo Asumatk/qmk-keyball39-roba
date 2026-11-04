@@ -1,0 +1,8 @@
+OLED_ENABLE = yes
+TAP_DANCE_ENABLE = yes
+COMBO_ENABLE = yes
+GRAVE_ESC_ENABLE = yes
+
+# 容量節約（ATmega32U4）
+VIA_ENABLE = no
+RGBLIGHT_ENABLE = no
