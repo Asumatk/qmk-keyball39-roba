@@ -1,0 +1,33 @@
+name: Build Keyball39 firmware
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/qmk/qmk_cli
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+        with:
+          path: config
+
+      - name: Checkout QMK 0.22.14
+        run: git clone --depth 1 --recurse-submodules --shallow-submodules -b 0.22.14 https://github.com/qmk/qmk_firmware.git qmk
+
+      - name: Checkout Keyball (Yowkees)
+        run: git clone --depth 1 https://github.com/Yowkees/keyball.git keyball
+
+      - name: Build
+        run: |
+          cp -r keyball/qmk_firmware/keyboards/keyball qmk/keyboards/
+          mkdir -p qmk/keyboards/keyball/keyball39/keymaps/roba
+          cp config/keymap.c config/config.h config/rules.mk qmk/keyboards/keyball/keyball39/keymaps/roba/
+          cd qmk
+          make keyball/keyball39:roba SKIP_GIT=yes
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: keyball39-roba-firmware
+          path: qmk/*.hex
