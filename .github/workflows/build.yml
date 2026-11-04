@@ -4,19 +4,32 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: ghcr.io/qmk/qmk_cli
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
         with:
           path: config
 
-      - name: Checkout QMK 0.22.14
-        run: git clone --depth 1 --recurse-submodules --shallow-submodules -b 0.22.14 https://github.com/qmk/qmk_firmware.git qmk
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-      - name: Checkout Keyball (Yowkees)
-        run: git clone --depth 1 https://github.com/Yowkees/keyball.git keyball
+      - name: Install AVR toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-avr avr-libc binutils-avr
+
+      - name: Checkout QMK 0.22.14 and Keyball (Yowkees)
+        run: |
+          git clone --depth 1 --recurse-submodules --shallow-submodules -b 0.22.14 https://github.com/qmk/qmk_firmware.git qmk
+          git clone --depth 1 https://github.com/Yowkees/keyball.git keyball
+
+      - name: Install QMK CLI
+        run: |
+          pip install qmk
+          pip install -r qmk/requirements.txt
 
       - name: Build
         run: |
@@ -24,6 +37,7 @@ jobs:
           mkdir -p qmk/keyboards/keyball/keyball39/keymaps/roba
           cp config/keymap.c config/config.h config/rules.mk qmk/keyboards/keyball/keyball39/keymaps/roba/
           cd qmk
+          export QMK_HOME=$PWD
           make keyball/keyball39:roba SKIP_GIT=yes
 
       - name: Upload firmware
