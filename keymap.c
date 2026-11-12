@@ -10,6 +10,7 @@
  *      layer_6 : ブートローダー → N の位置
  *  - Bluetooth関連キー(layer_6)は有線のため、トラックボール設定キーに置き換え
  *  - ロータリーエンコーダーは無いので省略
+ *  - スクロールは起動時に縦横自由。SYSTEMレイヤーの H=縦固定 / J=横固定 / K=自由
  *
  * レイヤー: 0 BASE / 1 FUNCTION / 2 NUM / 3 ARROW / 4 MOUSE(自動) / 5 SCROLL / 6 SYSTEM / 7 空き
  */
@@ -86,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_SYS] = LAYOUT_universal(
     _______ , _______ , _______ , _______ , _______ ,                        CPI_D100, CPI_I100, SCRL_DVD, SCRL_DVI, KBC_SAVE,
-    _______ , _______ , _______ , _______ , _______ ,                        _______ , _______ , _______ , _______ , _______ ,
+    _______ , _______ , _______ , _______ , _______ ,                        SSNP_VRT, SSNP_HOR, SSNP_FRE, _______ , _______ ,
     _______ , KC_1    , KC_2    , KC_3    , _______ ,                        QK_BOOT , _______ , _______ , _______ , _______ ,
     _______ , _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , KC_NO   , KC_NO   , KC_NO   , _______
   ),
@@ -129,6 +130,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     return true;
+}
+
+void keyboard_post_init_user(void) {
+    // 起動時はスクロールを縦横自由にする（roBaと同じ）。SYSTEMレイヤーの H/J/K で 縦固定/横固定/自由 に切替可能
+    keyball_set_scrollsnap_mode(KEYBALL_SCROLLSNAP_MODE_FREE);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
