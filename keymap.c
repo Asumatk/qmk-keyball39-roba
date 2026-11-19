@@ -19,10 +19,26 @@
 #include QMK_KEYBOARD_H
 #include "quantum.h"
 
-// JIS配列のWindowsで正しく入力されるキーコード（ARROWレイヤーの @ ? _ 用）
+// JIS配列のWindowsで正しく入力されるキーコード（ARROW・NUMレイヤーの記号用）
 #define MY_AT   KC_LBRC       // @
 #define MY_QUES S(KC_SLSH)    // ?
 #define MY_UNDS S(KC_INT1)    // _
+// NUMレイヤーの記号（JIS配列用）
+#define J_CIRC  KC_EQL        // ^
+#define J_AMPR  S(KC_6)       // &
+#define J_TILD  S(KC_EQL)     // ~
+#define J_LPRN  S(KC_8)       // (
+#define J_RPRN  S(KC_9)       // )
+#define J_ASTR  S(KC_QUOT)    // *
+#define J_PLUS  S(KC_SCLN)    // +
+#define J_LBRC  KC_RBRC       // [
+#define J_RBRC  KC_NUHS       // ]
+#define J_LCBR  S(KC_RBRC)    // {
+#define J_RCBR  S(KC_NUHS)    // }
+#define J_BSLS  KC_INT3       // \ (¥キー)
+#define J_GRV   S(KC_LBRC)    // `
+#define J_EQL   S(KC_MINS)    // =
+#define J_PIPE  S(KC_INT3)    // |
 
 enum layers { _BASE = 0, _FUNC, _NUM, _ARROW, _MOUSE, _SCROLL, _SYS, _L7 };
 
@@ -66,10 +82,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_NUM] = LAYOUT_universal(
-    KC_MINS , KC_P7   , KC_P8   , KC_P9   , S(KC_P5),                        KC_CIRC , KC_AMPR , KC_TILD , KC_LPRN , KC_RPRN ,
-    KC_SLSH , KC_P4   , KC_P5   , KC_P6   , KC_ASTR ,                        KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,
-    LSFT_T(KC_P0), KC_P1, KC_P2 , KC_P3   , KC_PLUS ,                        KC_LBRC , KC_RBRC , KC_LCBR , KC_RCBR , KC_BSLS ,
-    KC_GRV  , KC_EQL  , KC_UNDS , KC_DOT  , _______ , _______ ,    _______ , _______ , KC_NO   , KC_NO   , KC_NO   , KC_PIPE
+    KC_MINS , KC_P7   , KC_P8   , KC_P9   , S(KC_P5),                        J_CIRC  , J_AMPR  , J_TILD  , J_LPRN  , J_RPRN  ,
+    KC_SLSH , KC_P4   , KC_P5   , KC_P6   , J_ASTR  ,                        KC_EXLM , MY_AT   , KC_HASH , KC_DLR  , KC_PERC ,
+    LSFT_T(KC_P0), KC_P1, KC_P2 , KC_P3   , J_PLUS  ,                        J_LBRC  , J_RBRC  , J_LCBR  , J_RCBR  , J_BSLS  ,
+    J_GRV   , J_EQL   , MY_UNDS , KC_DOT  , _______ , _______ ,    _______ , _______ , KC_NO   , KC_NO   , KC_NO   , J_PIPE
   ),
 
   [_ARROW] = LAYOUT_universal(
