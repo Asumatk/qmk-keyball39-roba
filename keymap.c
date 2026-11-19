@@ -10,6 +10,7 @@
  *      layer_6 : ブートローダー → N の位置
  *  - Bluetooth関連キー(layer_6)は有線のため、トラックボール設定キーに置き換え
  *  - ロータリーエンコーダーは無いので省略
+ *  - Space長押し+Enter長押しで ARROW レイヤー（roBaと共通）
  *  - スクロールは起動時に縦横自由。SYSTEMレイヤーの H=縦固定 / J=横固定 / K=自由
  *
  * レイヤー: 0 BASE / 1 FUNCTION / 2 NUM / 3 ARROW / 4 MOUSE(自動) / 5 SCROLL / 6 SYSTEM / 7 空き
@@ -66,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ARROW] = LAYOUT_universal(
     KC_ESC  , C(S(KC_TAB)), KC_UP , C(KC_TAB), _______ ,                     _______ , _______ , _______ , _______ , _______ ,
-    KC_HOME , KC_LEFT , KC_DOWN , KC_RGHT , KC_END  ,                        _______ , _______ , _______ , _______ , _______ ,
+    KC_HOME , KC_LEFT , KC_DOWN , KC_RGHT , KC_END  ,                        _______ , KC_AT   , KC_QUES , KC_UNDS , _______ ,
     KC_LSFT , G(S(KC_LEFT)), _______, G(S(KC_RGHT)), _______ ,               _______ , _______ , _______ , _______ , _______ ,
     _______ , _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , KC_NO   , KC_NO   , KC_NO   , _______
   ),
@@ -138,6 +139,8 @@ void keyboard_post_init_user(void) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    // Space長押し(NUM) と Enter長押し(FUNCTION) を同時に押している間は ARROW
+    state = update_tri_layer_state(state, _FUNC, _NUM, _ARROW);
     // SCROLLレイヤー(5)が最上位のときはトラックボールでスクロール
     keyball_set_scroll_mode(get_highest_layer(state) == _SCROLL);
     return state;
