@@ -19,6 +19,11 @@
 #include QMK_KEYBOARD_H
 #include "quantum.h"
 
+// JIS配列のWindowsで正しく入力されるキーコード（ARROWレイヤーの @ ? _ 用）
+#define MY_AT   KC_LBRC       // @
+#define MY_QUES S(KC_SLSH)    // ?
+#define MY_UNDS S(KC_INT1)    // _
+
 enum layers { _BASE = 0, _FUNC, _NUM, _ARROW, _MOUSE, _SCROLL, _SYS, _L7 };
 
 // ---- タップダンス: 1回=英数(LANG2) / 2回=かな(LANG1) ----
@@ -69,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ARROW] = LAYOUT_universal(
     KC_ESC  , C(S(KC_TAB)), KC_UP , C(KC_TAB), _______ ,                     _______ , _______ , _______ , _______ , _______ ,
-    KC_HOME , KC_LEFT , KC_DOWN , KC_RGHT , KC_END  ,                        _______ , KC_AT   , KC_QUES , KC_UNDS , _______ ,
+    KC_HOME , KC_LEFT , KC_DOWN , KC_RGHT , KC_END  ,                        _______ , MY_AT   , MY_QUES , MY_UNDS , _______ ,
     KC_LSFT , G(S(KC_LEFT)), _______, G(S(KC_RGHT)), _______ ,               _______ , _______ , _______ , _______ , _______ ,
     _______ , _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , KC_NO   , KC_NO   , KC_NO   , _______
   ),
