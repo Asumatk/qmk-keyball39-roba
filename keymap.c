@@ -41,6 +41,8 @@ tap_dance_action_t tap_dance_actions[] = {
 #define ENT_L1 LT(_FUNC, KC_ENT)
 // roBaの lt_to_layer_0: 長押し=layer_6, タップ=レイヤー0に戻って「変換」
 #define L6_HEN LT(_SYS, KC_INT4)
+// FUNCTIONレイヤーのSpace位置: タップ=「=」, 長押し=NUM（Enter→Spaceの順でもARROWに入れるように）
+#define EQL_L2 LT(_NUM, KC_EQL)
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -55,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_MINS , KC_7    , KC_8    , KC_9    , KC_PERC ,                        KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   ,
     KC_SLSH , LGUI_T(KC_4), LALT_T(KC_5), LSFT_T(KC_6), KC_ASTR ,            KC_F7   , KC_F8   , KC_UP   , KC_F9   , KC_F10  ,
     _______ , KC_1    , KC_2    , KC_3    , KC_PLUS ,                        KC_F6   , KC_LEFT , KC_DOWN , KC_RGHT , KC_F11  ,
-    KC_DEL  , KC_0    , _______ , KC_DOT  , KC_EQL  , _______ ,    _______ , _______ , KC_NO   , KC_NO   , KC_NO   , KC_F12
+    KC_DEL  , KC_0    , _______ , KC_DOT  , EQL_L2  , _______ ,    _______ , _______ , KC_NO   , KC_NO   , KC_NO   , KC_F12
   ),
 
   [_NUM] = LAYOUT_universal(
